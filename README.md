@@ -9,12 +9,15 @@ A flutter navigation observer that adds access to lists that track the navigatio
 This is a singleton, meaning you can access its single instance from anywhere by calling the default constructor.
 
 To initialize the first instance you must add it to your app's navigator observers' like so:
-`void main() {
+
+```
+void main() {
   runApp(MaterialApp(
     home: Container(),
     navigatorObservers: [NavigationHistoryObserver()],
   ));
-}`
+}
+```
 
 To access the history, simply use `NavigationHistoryObserver().history` from anywhere in your code.
 
