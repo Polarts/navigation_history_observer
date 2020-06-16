@@ -1,14 +1,28 @@
-# navigationhistoryobserver
+# Flutter Navigation History Observer
 
-A new Flutter package.
+A flutter navigation observer that adds access to lists that track the navigation stack both forwards and backwards.
 
-## Getting Started
+- ![#f03c15] Warning! - ![#000000] This code has not yet been tested!
 
-This project is a starting point for a Dart
-[package](https://flutter.dev/developing-packages/),
-a library module containing code that can be shared easily across
-multiple Flutter or Dart projects.
+## Usage
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+This is a singleton, meaning you can access its single instance from anywhere by calling the default constructor.
+
+To initialize the first instance you must add it to your app's navigator observers' like so:
+`void main() {
+  runApp(MaterialApp(
+    home: Container(),
+    navigatorObservers: [NavigationHistoryObserver()],
+  ));
+}`
+
+To access the history, simply use `NavigationHistoryObserver().history` from anywhere in your code.
+
+To access the popped routes, simply use `NavigationHistoryObserver().poppedRoutes` from anywhere in your code.
+
+This also allows for going forwards in your navigation. To do that, use `Navigator.push(context, NavigationHistoryObserver().poppedRoutes.last)` and it should also automagically disappear from the `poppedRoutes` collection.
+
+### Note:
+
+The `history` and `poppedRoutes` getters return clones of the actual private collections as BuiltLists, meaning they're immutable.
+To change these collection, use the default Navigator as you normally would.
