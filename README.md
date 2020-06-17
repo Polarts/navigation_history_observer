@@ -26,4 +26,4 @@ This also allows for going forwards in your navigation. To do that, use `Navigat
 ### Note:
 
 The `history` and `poppedRoutes` getters return clones of the actual private collections as BuiltLists, meaning they're immutable.
-To change these collection, use the default Navigator as you normally would.
+To change these collections, use the default Navigator as you normally would.
