@@ -2,8 +2,6 @@
 
 A flutter navigation observer that adds access to lists that track the navigation stack both forwards and backwards.
 
-![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) Warning! This code has not yet been tested!
-
 ## Usage
 
 This is a singleton, meaning you can access its single instance from anywhere by calling the default constructor.
