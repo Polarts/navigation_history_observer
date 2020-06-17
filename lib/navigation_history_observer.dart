@@ -17,6 +17,9 @@ class NavigationHistoryObserver extends NavigatorObserver {
   /// Gets a clone of the popped routes as an immutable list.
   get poppedRoutes => BuiltList<Route<dynamic>>.from(_poppedRoutes);
 
+  /// Gets the top route in the navigation stack.
+  get top => _history.last;
+
   static final NavigationHistoryObserver _singleton = NavigationHistoryObserver._internal();
   NavigationHistoryObserver._internal();
   factory NavigationHistoryObserver() {
@@ -25,8 +28,8 @@ class NavigationHistoryObserver extends NavigatorObserver {
 
   @override
   void didPop(Route<dynamic> route, Route<dynamic> previousRoute) {
+    _poppedRoutes.add(_history.last);
     _history.removeLast();
-    _poppedRoutes.add(previousRoute);
   }
 
   @override
