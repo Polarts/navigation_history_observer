@@ -1,7 +1,7 @@
 name: navigation_history_observer
 description: A Flutter NavigatorObserver that stores a collection of pushed routes history, as well as the popped history.
-version: 1.0.1
-homepage: https://github.com/Polarts
+version: 1.0.2
+homepage: https://github.com/Polarts/navigation_history_observer
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
