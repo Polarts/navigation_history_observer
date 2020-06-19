@@ -26,7 +26,7 @@ class NavigationHistoryObserver extends NavigatorObserver {
   StreamController historyChangeStreamController = StreamController.broadcast();
 
   /// Accessor to the history change stream.
-  get historyChanged => historyChangeStreamController.stream;
+  get historyChangeStream => historyChangeStreamController.stream;
 
   static final NavigationHistoryObserver _singleton = NavigationHistoryObserver._internal();
   NavigationHistoryObserver._internal();
