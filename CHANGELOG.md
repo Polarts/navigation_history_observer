@@ -1,3 +1,7 @@
+## [1.0.3+1] - Jun. 20, 2020
+
+* Example updated - The example page is now in main.dart to show the full code on pub.dev
+
 ## [1.0.3] - Jun. 20, 2020
 
 * Changed library name from `navigation_history_observer` to `navigationhistoryobserver`.
