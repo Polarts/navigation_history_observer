@@ -1,4 +1,4 @@
-library navigation_history_observer;
+library navigationhistoryobserver;
 
 import 'dart:async';
 
@@ -22,11 +22,14 @@ class NavigationHistoryObserver extends NavigatorObserver {
   /// Gets a clone of the popped routes as an immutable list.
   get poppedRoutes => BuiltList<Route<dynamic>>.from(_poppedRoutes);
 
+  /// Gets the next route in the navigation history, which is the most recently popped route.
+  get next => _poppedRoutes.last;
+
   /// A stream that broadcasts whenever the navigation history changes.
-  StreamController historyChangeStreamController = StreamController.broadcast();
+  StreamController _historyChangeStreamController = StreamController.broadcast();
 
   /// Accessor to the history change stream.
-  get historyChangeStream => historyChangeStreamController.stream;
+  get historyChangeStream => _historyChangeStreamController.stream;
 
   static final NavigationHistoryObserver _singleton = NavigationHistoryObserver._internal();
   NavigationHistoryObserver._internal();
@@ -38,9 +41,10 @@ class NavigationHistoryObserver extends NavigatorObserver {
   void didPop(Route<dynamic> route, Route<dynamic> previousRoute) {
     _poppedRoutes.add(_history.last);
     _history.removeLast();
-    historyChangeStreamController.add(HistoryChange(
+    _historyChangeStreamController.add(HistoryChange(
       action: NavigationStackAction.pop,
-      route: route
+      newRoute: route,
+      oldRoute: previousRoute,
     ));
   }
 
@@ -48,18 +52,20 @@ class NavigationHistoryObserver extends NavigatorObserver {
   void didPush(Route<dynamic> route, Route<dynamic> previousRoute) {
     _history.add(route);
     _poppedRoutes.remove(route);
-    historyChangeStreamController.add(HistoryChange(
+    _historyChangeStreamController.add(HistoryChange(
       action: NavigationStackAction.push,
-      route: route
+      newRoute: route,
+      oldRoute: previousRoute,
     ));
   }
 
   @override
   void didRemove(Route<dynamic> route, Route<dynamic> previousRoute) {
     _history.remove(route);
-    historyChangeStreamController.add(HistoryChange(
-        action: NavigationStackAction.remove,
-        route: route
+    _historyChangeStreamController.add(HistoryChange(
+      action: NavigationStackAction.remove,
+      newRoute: route,
+      oldRoute: previousRoute,
     ));
   }
 
@@ -67,9 +73,10 @@ class NavigationHistoryObserver extends NavigatorObserver {
   void didReplace({Route<dynamic> newRoute, Route<dynamic> oldRoute}) {
     int oldRouteIndex = _history.indexOf(oldRoute);
     _history.replaceRange(oldRouteIndex, oldRouteIndex+1, [newRoute]);
-    historyChangeStreamController.add(HistoryChange(
-        action: NavigationStackAction.replace,
-        route: newRoute
+    _historyChangeStreamController.add(HistoryChange(
+      action: NavigationStackAction.replace,
+      newRoute: newRoute,
+      oldRoute: oldRoute,
     ));
   }
 
@@ -78,10 +85,11 @@ class NavigationHistoryObserver extends NavigatorObserver {
 /// A class that contains all data that needs to be broadcasted through the history change stream.
 class HistoryChange {
 
-  HistoryChange({this.action, this.route});
+  HistoryChange({this.action, this.newRoute, this.oldRoute});
 
   final NavigationStackAction action;
-  final Route<dynamic> route;
+  final Route<dynamic> newRoute;
+  final Route<dynamic> oldRoute;
 
 }
 
