@@ -8,28 +8,32 @@ import 'package:flutter/widgets.dart';
 class NavigationHistoryObserver extends NavigatorObserver {
 
   /// A list of all the past routes
-  List<Route<dynamic>> _history = <Route<dynamic>>[];
+  final List<Route<dynamic>> _history = <Route<dynamic>>[];
 
   /// Gets a clone of the navigation history as an immutable list.
-  get history => BuiltList<Route<dynamic>>.from(_history);
+  BuiltList<Route<dynamic>> get history =>
+      BuiltList<Route<dynamic>>.from(_history);
 
   /// Gets the top route in the navigation stack.
-  get top => _history.last;
+  Route<dynamic> get top => _history.last;
 
   /// A list of all routes that were popped to reach the current.
-  List<Route<dynamic>> _poppedRoutes = <Route<dynamic>>[];
+  final List<Route<dynamic>> _poppedRoutes = <Route<dynamic>>[];
 
   /// Gets a clone of the popped routes as an immutable list.
-  get poppedRoutes => BuiltList<Route<dynamic>>.from(_poppedRoutes);
+  BuiltList<Route<dynamic>> get poppedRoutes =>
+      BuiltList<Route<dynamic>>.from(_poppedRoutes);
 
   /// Gets the next route in the navigation history, which is the most recently popped route.
-  get next => _poppedRoutes.last;
+  Route<dynamic> get next => _poppedRoutes.last;
 
   /// A stream that broadcasts whenever the navigation history changes.
-  StreamController _historyChangeStreamController = StreamController.broadcast();
+  final StreamController _historyChangeStreamController =
+      StreamController.broadcast();
 
   /// Accessor to the history change stream.
-  get historyChangeStream => _historyChangeStreamController.stream;
+  Stream<dynamic> get historyChangeStream =>
+      _historyChangeStreamController.stream;
 
   static final NavigationHistoryObserver _singleton = NavigationHistoryObserver._internal();
   NavigationHistoryObserver._internal();
@@ -72,30 +76,22 @@ class NavigationHistoryObserver extends NavigatorObserver {
   @override
   void didReplace({Route<dynamic> newRoute, Route<dynamic> oldRoute}) {
     int oldRouteIndex = _history.indexOf(oldRoute);
-    _history.replaceRange(oldRouteIndex, oldRouteIndex+1, [newRoute]);
+    _history.replaceRange(oldRouteIndex, oldRouteIndex + 1, [newRoute]);
     _historyChangeStreamController.add(HistoryChange(
       action: NavigationStackAction.replace,
       newRoute: newRoute,
       oldRoute: oldRoute,
     ));
   }
-
 }
 
 /// A class that contains all data that needs to be broadcasted through the history change stream.
 class HistoryChange {
-
   HistoryChange({this.action, this.newRoute, this.oldRoute});
 
   final NavigationStackAction action;
   final Route<dynamic> newRoute;
   final Route<dynamic> oldRoute;
-
 }
 
-enum NavigationStackAction {
-  push,
-  pop,
-  remove,
-  replace
-}
+enum NavigationStackAction { push, pop, remove, replace }
