@@ -1,3 +1,9 @@
+## [1.1.0] - Mar. 11, 2021
+
+* Migrated to null safety.
+* Updated built_collection dependency to ^5.0.0.
+* Added type annotations to getters.
+
 ## [1.0.3+1] - Jun. 20, 2020
 
 * Example updated - The example page is now in main.dart to show the full code on pub.dev
