@@ -6,7 +6,6 @@ import 'package:built_collection/built_collection.dart';
 import 'package:flutter/widgets.dart';
 
 class NavigationHistoryObserver extends NavigatorObserver {
-
   /// A list of all the past routes
   final List<Route<dynamic>?> _history = <Route<dynamic>?>[];
 
@@ -15,7 +14,7 @@ class NavigationHistoryObserver extends NavigatorObserver {
       BuiltList<Route<dynamic>>.from(_history);
 
   /// Gets the top route in the navigation stack.
-  Route<dynamic>? get top => _history.last;
+  Route<dynamic>? get top => _history.isNotEmpty ? _history.last : null;
 
   /// A list of all routes that were popped to reach the current.
   final List<Route<dynamic>?> _poppedRoutes = <Route<dynamic>?>[];
@@ -35,7 +34,8 @@ class NavigationHistoryObserver extends NavigatorObserver {
   Stream<dynamic> get historyChangeStream =>
       _historyChangeStreamController.stream;
 
-  static final NavigationHistoryObserver _singleton = NavigationHistoryObserver._internal();
+  static final NavigationHistoryObserver _singleton =
+      NavigationHistoryObserver._internal();
   NavigationHistoryObserver._internal();
   factory NavigationHistoryObserver() {
     return _singleton;
