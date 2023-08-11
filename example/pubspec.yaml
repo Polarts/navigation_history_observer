@@ -5,13 +5,13 @@ publish_to: 'none'
 version: 1.0.0
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.12.0 <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  navigation_history_observer: 1.0.3
-  cupertino_icons: ^0.1.3
+  navigation_history_observer:
+    path: ../
 
 dev_dependencies:
   flutter_test:
