@@ -8,32 +8,29 @@ void main() {
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: ExamplePage(pageNum: 1,),
-      navigatorObservers: [NavigationHistoryObserver()],
-    );
-  }
+  Widget build(BuildContext context) => MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        home: ExamplePage(
+          pageNum: 1,
+        ),
+        navigatorObservers: [NavigationHistoryObserver()],
+      );
 }
 
 class ExamplePage extends StatefulWidget {
-
-  ExamplePage({Key key, this.pageNum}) : super(key: key);
+  ExamplePage({Key? key, required this.pageNum}) : super(key: key);
 
   final int pageNum;
 
   @override
   _ExamplePageState createState() => _ExamplePageState();
-
 }
 
 class _ExamplePageState extends State<ExamplePage> {
-
   final NavigationHistoryObserver historyObserver = NavigationHistoryObserver();
 
   int historyCount = 0;
@@ -46,18 +43,14 @@ class _ExamplePageState extends State<ExamplePage> {
     historyCount = historyObserver.history.length;
     poppedCount = historyObserver.poppedRoutes.length;
 
-    historyObserver.historyChangeStream.listen(
-      (change) => setState(() {
+    historyObserver.historyChangeStream.listen((change) => setState(() {
           historyCount = historyObserver.history.length;
           poppedCount = historyObserver.poppedRoutes.length;
-        }
-      )
-    );
+        }));
   }
 
   @override
-  Widget build(BuildContext context) =>
-      Scaffold(
+  Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           title: Row(
             children: <Widget>[
@@ -71,14 +64,14 @@ class _ExamplePageState extends State<ExamplePage> {
               Text("Welcome to the navigation page!"),
               Text("History has $historyCount routes"),
               Text("There are $poppedCount popped routes"),
-              RaisedButton(
+              Text("Last: "),
+              FilledButton(
                 child: Text("Navigate to a new page"),
                 onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => ExamplePage(pageNum: widget.pageNum + 1)
-                    )
-                ),
+                        builder: (context) =>
+                            ExamplePage(pageNum: widget.pageNum + 1))),
               )
             ],
           ),
