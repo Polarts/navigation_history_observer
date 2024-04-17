@@ -1,3 +1,9 @@
+## [1.1.1] - Apr. 17, 2024
+
+* Merged [PR by wrbl606](https://github.com/Polarts/navigation_history_observer/pull/6)
+* Upgrade example project to work with Dart/Flutter 3+
+* Fix early `.top` access -- if no routes were added yet, `.top` access attempt will result with `BadState` thrown
+
 ## [1.1.0] - Mar. 11, 2021
 
 * Migrated to null safety.
